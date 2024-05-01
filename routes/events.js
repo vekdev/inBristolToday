@@ -1,9 +1,9 @@
 const express = require("express")
 const router = express.Router()
+const eventsController = require("../controllers/events")
 
-router.get("/", (req, res) => {
-    res.send("THIS IS THE EVENTS ROUTE INDEX PAGE")
-})
+router.get("/", eventsController.showEvents)
+router.get("/add", eventsController.addEvent)
 
 
 module.exports = router
