@@ -15,5 +15,10 @@ module.exports = {
             description: "This is my wonderful description of my event"
         })
         res.redirect("/events")
+    },
+    purge: async (req, res) => {
+        // Eventually this will need to purge only those events that have already taken place (with dates in the past. For now, it just empties the collection completely - Use with caution!!)
+        await events.deleteMany()
+        res.redirect("/events")
     }
 }
