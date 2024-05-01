@@ -11,13 +11,12 @@ const MongoStore = require("connect-mongo")
 */
 
 const {connectDB} = require("./config/db")
+require("dotenv").config({path: "./config/.env"})
 
 const homeRoutes = require("./routes/home")
 const eventRoutes = require("./routes/events")
 
 // CONNECT TO DATABASE
-
-require("dotenv").config({path: "./config/.env"})
 
 connectDB()
 
