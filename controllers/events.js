@@ -1,8 +1,19 @@
+const events = require("../models/Events")
+
 module.exports = {
-    showEvents: (req, res) => {
-        res.send("THIS WILL SHOW ALL THE EVENTS FOR TODAY IN A NICE EASY TO READ FORMAT!")
+    showEvents: async (req, res) => {
+        const allEvents = await events.find()
+        const eventIds = [];
+        allEvents.forEach(e => {
+            eventIds.push(e.id)
+        })
+        res.send(eventIds)
     },
-    addEvent: (req,res) => {
-        res.send("THIS WILL BE THE PATH WHERE A NEW EVENT WILL BE ADDED TO THE DATABASE VIA A FORM. REMEMBER TO ADD CLOUDINARY HERE FOR IMAGE UPLOADS / MANAGEMENT")
+    addEvent: async (req,res) => {
+        await events.create({
+            title: "Test Event",
+            description: "This is my wonderful description of my event"
+        })
+        res.redirect("/events")
     }
 }
