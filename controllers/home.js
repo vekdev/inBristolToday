@@ -4,7 +4,7 @@ module.exports = {
     }
 
 
-    // FUTURE CODE FOR TURNIGN ENTERED TEXT INTO VALID HTML BEFORE SAVING IN THE DATABASE
+    // FUTURE CODE FOR TURNING ENTERED TEXT INTO VALID HTML BEFORE SAVING IN THE DATABASE
 
     // let template = req.body.text
     // template = '<p>' + template.replace(/\r\n\r\n/g, '</p><p>')
