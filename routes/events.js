@@ -3,7 +3,7 @@ const router = express.Router()
 const eventsController = require("../controllers/events")
 
 router.get("/", eventsController.showEvents)
-router.get("/add", eventsController.addEvent)
+router.post("/add", eventsController.addEvent)
 router.get("/purge", eventsController.purge)
 
 
