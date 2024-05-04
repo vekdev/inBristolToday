@@ -7,10 +7,12 @@
 </head>
 <body>
     <p>THIS IS THE HOMEPAGE EJS!</p>    
-    <p>Eventually, I will want a nice welcoming page here that will show some sponsored events, fixed number of events fro today and also any special offers that are time limited</p>
+    <p>Eventually, I will want a nice welcoming page here that will show some sponsored events, fixed number of events for today and also any special offers that are time limited</p>
     <form action="/events/add" method="post">
         <input type="text" name="title" id="title">
         <input type="text" name="description" id="description">
+        <input type="date" name="date" id="date">
+        <input type="time" name="time" id="time">
         <button type="submit">new event</button>
     </form>
 

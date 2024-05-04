@@ -10,12 +10,12 @@ module.exports = {
         res.send(eventIds)
     },
     addEvent: async (req, res) => {
-        const tzname = "Europe/London"
-        const longOffsetFormatter = new Intl.DateTimeFormat("en-GB", { timeZone: tzname, timeZoneName: "longOffset" }).format(new Date("2024-12-02T09:30:00"))
+        const myTime = new Date(`${req.body.date}T${req.body.time}`)
+        const longOffsetFormatter = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/London", timeZoneName: "longOffset" }).format(myTime)
         const gmtOffset = longOffsetFormatter.split('GMT')[1]
-        // THIS FUNCTION QUICKLY CHECKS FOR BST OR GMT AND ADDS RELEVANT INFO
+        // THIS FUNCTION QUICKLY CHECKS FOR BST OR GMT AND ADDS RELEVANT INFO TO THE TIME 
         const getDate = () => {
-            return gmtOffset !== "" ? "2024-12-02T09:30:00" + gmtOffset : "2024-12-02T09:30:00+00:00"
+            return gmtOffset !== "" ? myTime + gmtOffset : myTime + "+00:00"
         }
         const newDate = new Date(getDate())
         await events.create({
