@@ -1,27 +1,38 @@
 const events = require("../models/Events")
+const textFormatter = require("../models/TextToHTML")
 
 module.exports = {
+    // THIS CONTROLLER WILL EVENTUALLY RENDER THE EJS PAGE THAT SHOWS THE EVENTS THAT ARE HAPPENING TODAY
+    // CURRENTLY IT'S JUST PRINTING AN ARRAY OF ANY EVENTS TO THE SCREEN
     showEvents: async (req, res) => {
         const allEvents = await events.find()
         const eventIds = [];
+        const todaysDateUkFormat = new Date(Date.now()).toLocaleDateString("en-GB")
         allEvents.forEach(e => {
-            eventIds.push(e.date.toTimeString())
+            // if (e.date.toLocaleDateString("en-GB") !== todaysDateUkFormat) return
+            eventIds.push(e.title + " " + e.date.toLocaleTimeString("en-GB", {
+                timeZone: "Europe/London", 
+                hour: "2-digit", 
+                minute: "2-digit" }) + e.description)
         })
         res.send(eventIds)
     },
     addEvent: async (req, res) => {
+
+        const template = textFormatter(req.body.description)
+
         const myTime = new Date(`${req.body.date}T${req.body.time}`)
         const longOffsetFormatter = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/London", timeZoneName: "longOffset" }).format(myTime)
         const gmtOffset = longOffsetFormatter.split('GMT')[1]
-        // THIS FUNCTION QUICKLY CHECKS FOR BST OR GMT AND ADDS RELEVANT INFO TO THE TIME 
-        const getDate = () => {
+        
+        const checkForBST = () => {
             return gmtOffset !== "" ? myTime + gmtOffset : myTime + "+00:00"
         }
-        const newDate = new Date(getDate())
+        const ukDateAndTime = new Date(checkForBST())
         await events.create({
             title: req.body.title,
-            description: req.body.description,
-            date: newDate
+            description: template,
+            date: ukDateAndTime
         })
         res.redirect("/events")
     },

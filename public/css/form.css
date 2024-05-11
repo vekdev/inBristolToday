@@ -1,0 +1,62 @@
+body {
+    padding: 5rem;
+}
+
+form > * {
+    box-sizing: border-box;
+}
+
+form {
+    max-width: 500px;
+    margin-block: 2rem;
+}
+
+input, select {
+    width: 100%;
+    border: 1px solid red;
+    box-shadow: none;
+    font-family: sans-serif;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    padding: 0.5rem 0.75rem;
+    border-radius: 10px;
+
+}
+
+.month {
+    position: relative;
+    appearance: none;
+}
+
+.month::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0.8em;
+    height: 0.5em;
+    background-color: black;
+    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+}
+
+textarea {
+    resize: none;
+    width: 100%;
+    border: 1px solid red;
+    box-shadow: none;
+    font-family: sans-serif;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    padding: 0.5rem 0.75rem;
+    border-radius: 10px;
+}
+
+form button {
+    cursor: pointer;
+    border: none;
+    background-color: red;
+    color: whitesmoke;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    font-size: 1rem;
+}
