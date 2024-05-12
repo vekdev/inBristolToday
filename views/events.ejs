@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The EVENTS</title>
 </head>
+
 <body>
     <h1>SOME AMAZING EVENTS HERE</h1>
-    <p>Here I will be posting the events with clickable URL's that will go to the individual event page for the full details</p>
-    <% events.forEach(e => { %>
-        <h2><%= e.title %></h2>
+    <p>Here I will be posting the events with clickable URL's that will go to the individual event page for the full
+        details</p>
+    <% events.forEach(e=> { %>
+        <h2>
+            <%= e.title %>
+        </h2>
         <p><%- e.description %></p>
         <a href="/events/<%= e.title %>-<%= e.id %>">Read More</a>
-    <% }) %>
+        <% }) %>
+
+
+    <p><a href="../">Back to home</a></p>
 </body>
+
 </html>

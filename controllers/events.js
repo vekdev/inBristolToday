@@ -2,25 +2,12 @@ const events = require("../models/Events")
 const textFormatter = require("../models/TextToHTML")
 
 module.exports = {
-    // THIS CONTROLLER WILL EVENTUALLY RENDER THE EJS PAGE THAT SHOWS THE EVENTS THAT ARE HAPPENING TODAY
-    // CURRENTLY IT'S JUST PRINTING AN ARRAY OF ANY EVENTS TO THE SCREEN
     showEvents: async (req, res) => {
-        const allEvents = await events.find()
-        const eventIds = [];
         const todaysDateUkFormat = new Date(Date.now()).toLocaleDateString("en-GB")
-        // allEvents.forEach(e => {
-        //     if (e.date.toLocaleDateString("en-GB") !== todaysDateUkFormat) return
-        //     eventIds.push(e.title + " " + e.date.toLocaleTimeString("en-GB", {
-        //         timeZone: "Europe/London", 
-        //         hour: "2-digit", 
-        //         minute: "2-digit" }) + e.description)
-        // })
-
-
-
-
-        // Remember to use <%- ... %> for non-eacaping HTML when using the description from db so that html is used and not a string
-        // res.send(eventIds)
+        // if (e.date.toLocaleDateString("en-GB") !== todaysDateUkFormat)
+        // THIS WILL NEED TO GO INTO THE EVENTS.FIND() TO ONLY RETURN EVENTS FOR TODAY
+        const allEvents = await events.find()
+        
         res.render("events.ejs", {
             events: allEvents
         })
@@ -48,7 +35,7 @@ module.exports = {
         res.redirect("/events")
     },
     purge: async (req, res) => {
-        // Eventually this will need to purge only those events that have already taken place (with dates in the past. For now, it just empties the collection completely - Use with caution!!)
+        // Eventually this will need to purge only those events that have already taken place (with dates in the past. For now, it just empties the collection completely - Use with caution!! There is zero prote4ction for this at the moment!!)
         await events.deleteMany()
         res.redirect("/events")
     },
