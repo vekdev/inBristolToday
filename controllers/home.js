@@ -1,6 +1,8 @@
 module.exports = {
     homepage: (req, res) => {
-        res.render("index.ejs")
+        res.render("index.ejs", {
+            test: "<h1>This is a header</h1><p>This is a paragraph</p>"
+        })
     }
 
 
