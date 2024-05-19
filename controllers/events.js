@@ -1,15 +1,15 @@
 const events = require("../models/Events")
 const textFormatter = require("../models/TextToHTML")
+const timeFormat = require("../models/DateForDisplay")
 
 module.exports = {
     showEvents: async (req, res) => {
-        const todaysDateUkFormat = new Date(Date.now()).toLocaleDateString("en-GB")
-        // if (e.date.toLocaleDateString("en-GB") !== todaysDateUkFormat)
-        // THIS WILL NEED TO GO INTO THE EVENTS.FIND() TO ONLY RETURN EVENTS FOR TODAY
-        const allEvents = await events.find()
+        const todaysDate = new Date(Date.now())
+        const twentyFourHoursFromNow = new Date(Date.now() + 60 * 60 * 24 * 1000)
+        const allEventsNextTwentyFourHours = await events.find({date: {$gte: todaysDate, $lt: twentyFourHoursFromNow}}).sort({date: 1})
         
         res.render("events.ejs", {
-            events: allEvents
+            events: allEventsNextTwentyFourHours
         })
     },
     addEvent: async (req, res) => {
@@ -41,11 +41,7 @@ module.exports = {
     },
     showSingleEvent: async (req, res) => {
         const event = await events.findOne({_id: req.params.id})
-        const eventTimeInUK = event.date.toLocaleTimeString("en-GB", {
-            timeZone: "Europe/London",
-            hour: "numeric",
-            minute: "2-digit"
-        })
+        const eventTimeInUK = timeFormat(event.date)
         res.render("single-event.ejs", {
             event: event,
             date: eventTimeInUK
