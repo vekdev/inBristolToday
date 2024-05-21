@@ -9,9 +9,10 @@
 
 <body>
     <h1>SOME AMAZING EVENTS HERE</h1>
-    <p>Here I will be posting the events with clickable URL's that will go to the individual event page for the full
+    <p>Here I will be showing the events with clickable URL's that will go to the individual event page for the full
         details</p>
     <% events.forEach(e=> { %>
+        <% if (e.date.toLocaleDateString("en-GB", {timeZone: "Europe/London"}) > dateString) return %>
         <h2>
             <%= e.title %>
         </h2>

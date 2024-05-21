@@ -10,6 +10,7 @@
   "author": "Kevin Davis",
   "license": "ISC",
   "dependencies": {
+    "cloudinary": "^2.2.0",
     "connect-mongo": "^5.1.0",
     "dotenv": "^16.4.4",
     "ejs": "^3.1.9",
@@ -17,6 +18,7 @@
     "express-session": "^1.18.0",
     "mongodb": "^6.3.0",
     "mongoose": "^8.1.2",
+    "multer": "^1.4.5-lts.1",
     "passport": "^0.7.0"
   },
   "devDependencies": {

@@ -1,6 +1,7 @@
 const express = require("express")
 const app = express()
 const {json, urlencoded} = require("express")
+const {connectDB} = require("./config/db")
 
 /* 
 FUTURE PACKAGE REQUIREMENTS FOR WHEN ACCOUNTS ENABLED FOR EVENT ADDING.
@@ -10,7 +11,6 @@ const passport = require("passport")
 const MongoStore = require("connect-mongo")
 */
 
-const {connectDB} = require("./config/db")
 require("dotenv").config({path: "./config/.env"})
 
 const homeRoutes = require("./routes/home")
@@ -31,11 +31,6 @@ const PORT = process.env.PORT
 
 app.use("/", homeRoutes)
 app.use("/events/", eventRoutes)
-
-
-
-
-
 
 
 

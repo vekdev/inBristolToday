@@ -10,10 +10,11 @@
 <body>
     <p>THIS IS THE HOMEPAGE EJS!</p>    
     <p>Eventually, I will want a nice welcoming page here that will show some sponsored events, fixed number of events for today and also any special offers that are time limited</p>
-    <form action="/events/add" method="post">
+    <form action="/events/add" method="post" enctype="multipart/form-data">
         <input type="text" name="title" id="title" placeholder="Enter a title for the event">
         <textarea name="description" id="description" rows="10" placeholder="Enter a description of your event"></textarea>
         <input type="date" name="date" id="date" placeholder="Enter the date" required>
+        <input type="file" name="img" id="img">
         <!-- <select name="month" id="month" class="month">
             <option>Select Month</option>
             <option>January</option>
