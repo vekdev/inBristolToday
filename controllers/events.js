@@ -21,31 +21,12 @@ module.exports = {
         
         console.log(req.file.path)
 
+        // PLACE IN A TRY / CATCH BLOCK
+        // OPTIONS CAN BE PASSED VIA AN OBJECT AFTER THE IMAGE PATH
+
         const result = await cloudinary.uploader.upload(req.file.path)
 
         console.log(result)
-
-        // const uploadImage = async (imagePath) => {
-
-        //     // Use the uploaded file's name as the asset's public ID and 
-        //     // allow overwriting the asset with new versions
-        //     const options = {
-        //         use_filename: true,
-        //         unique_filename: false,
-        //         overwrite: true,
-        //     };
-
-        //     try {
-        //         // Upload the image
-        //         const result = await cloudinary.uploader.upload(imagePath, options);
-        //         console.log(result);
-        //         return result.public_id;
-        //     } catch (error) {
-        //         console.error(error);
-        //     }
-        // }
-
-        // uploadImage(req.file.path)
 
         const textToHTML = textFormatter(req.body.description)
 
@@ -64,7 +45,8 @@ module.exports = {
         await events.create({
             title: req.body.title,
             description: textToHTML,
-            date: ukDateAndTime
+            date: ukDateAndTime,
+            image_url: result.secure_url
         })
         res.redirect("/events")
     },

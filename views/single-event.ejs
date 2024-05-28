@@ -9,6 +9,9 @@
     <h1><%= event.title %></h1>
     <p><%- event.description %></p>
     <p><%= date %></p>
+    <% if (event.image_url) { %>
+        <p><img src=<%= event.image_url %> alt=""></p>
+    <% } %>
 
     <a href="../events">Back to events</a>
 </body>

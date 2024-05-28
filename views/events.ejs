@@ -17,7 +17,7 @@
             <%= e.title %>
         </h2>
         <p><%- e.description %></p>
-        <a href="/events/<%= e.title %>-<%= e.id %>">Read More</a>
+        <a href="/events/<%= e.title.split(" ").join("_") %>-<%= e.id %>">Read More</a>
         <% }) %>
 
 
