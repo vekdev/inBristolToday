@@ -7,10 +7,10 @@
 </head>
 <body>
     <h1><%= event.title %></h1>
-    <p><%- event.description %></p>
+    <%- event.description %>
     <p><%= date %></p>
-    <% if (event.image_url) { %>
-        <p><img src=<%= event.image_url %> alt=""></p>
+    <% if (event.image.url) { %>
+        <p><img src=<%= optimisedImage %> loading="lazy" alt=<%= event.title %> style="border-radius:20px;width:650px;height:200px;object-fit:cover"/></p>
     <% } %>
 
     <a href="../events">Back to events</a>

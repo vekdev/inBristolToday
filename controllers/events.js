@@ -1,7 +1,6 @@
 const events = require("../models/Events")
 const textFormatter = require("../models/TextToHTML")
 const timeFormat = require("../models/DateForDisplay")
-// const cloudinary = require("cloudinary").v2
 const cloudinary = require("../middleware/cloudinary")
 
 
@@ -18,15 +17,10 @@ module.exports = {
     },
     addEvent: async (req, res) => {
 
-        
-        console.log(req.file.path)
-
         // PLACE IN A TRY / CATCH BLOCK
         // OPTIONS CAN BE PASSED VIA AN OBJECT AFTER THE IMAGE PATH
 
-        const result = await cloudinary.uploader.upload(req.file.path)
-
-        console.log(result)
+        const result = req.file ? await cloudinary.uploader.upload(req.file.path) : ""
 
         const textToHTML = textFormatter(req.body.description)
 
@@ -42,26 +36,42 @@ module.exports = {
             return gmtOffset !== "" ? myTime + gmtOffset : myTime + "+00:00"
         }
         const ukDateAndTime = new Date(checkForBST())
+
+        // const optimisedImage = cloudinary.image(req.file.path, {width: 400, crop: "scale"})
+
+
         await events.create({
             title: req.body.title,
             description: textToHTML,
             date: ukDateAndTime,
-            image_url: result.secure_url
+            image: {
+                url: result.secure_url,
+                id: result.public_id,
+                ext: result.format
+            }
         })
         res.redirect("/events")
     },
     purge: async (req, res) => {
         // Eventually this will need to purge only those events that have already taken place (with dates in the past. For now, it just empties the collection completely - Use with caution!! There is zero prote4ction for this at the moment!!)
         const todaysDate = new Date(Date.now())
-        await events.deleteMany({ date: { $lt: todaysDate } })
-        res.redirect("/events")
-    },
+        const allEvents = await events.find({date: {$lt: todaysDate}})
+        allEvents.forEach(async (event) => {
+            event.image.id ? await cloudinary.uploader.destroy(event.image.id):console.log("NO IMAGE")
+            await events.deleteOne({_id: event.id})
+        })
+            
+    res.redirect("/events")
+},
     showSingleEvent: async (req, res) => {
         const event = await events.findOne({ _id: req.params.id })
         const eventTimeInUK = timeFormat(event.date)
+        const optimisedImageUrl = "https://res.cloudinary.com/doowiss1n/image/upload/c_scale,w_800/" + event.image.id + ".webp"
+
         res.render("single-event.ejs", {
             event: event,
-            date: eventTimeInUK
+            date: eventTimeInUK,
+            optimisedImage: optimisedImageUrl
         })
     }
 }
