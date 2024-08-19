@@ -24,21 +24,18 @@ module.exports = {
 
         const textToHTML = textFormatter(req.body.description)
 
-        const myTime = new Date(`${req.body.date}T${req.body.time}`)
+        const enteredTime = new Date(`${req.body.date}T${req.body.time}`)
         const longOffsetFormatter = new Intl.DateTimeFormat("en-GB", {
             timeZone: "Europe/London",
             timeZoneName: "longOffset"
         })
-            .format(myTime)
+            .format(enteredTime)
         const gmtOffset = longOffsetFormatter.split('GMT')[1]
 
         const checkForBST = () => {
-            return gmtOffset !== "" ? myTime + gmtOffset : myTime + "+00:00"
+            return gmtOffset !== "" ? enteredTime + gmtOffset : enteredTime + "+00:00"
         }
         const ukDateAndTime = new Date(checkForBST())
-
-        // const optimisedImage = cloudinary.image(req.file.path, {width: 400, crop: "scale"})
-
 
         await events.create({
             title: req.body.title,
@@ -53,7 +50,6 @@ module.exports = {
         res.redirect("/events")
     },
     purge: async (req, res) => {
-        // Eventually this will need to purge only those events that have already taken place (with dates in the past. For now, it just empties the collection completely - Use with caution!! There is zero prote4ction for this at the moment!!)
         const todaysDate = new Date(Date.now())
         const allEvents = await events.find({date: {$lt: todaysDate}})
         allEvents.forEach(async (event) => {
@@ -66,6 +62,8 @@ module.exports = {
     showSingleEvent: async (req, res) => {
         const event = await events.findOne({ _id: req.params.id })
         const eventTimeInUK = timeFormat(event.date)
+
+        // ADD THIS TO A FUNCTION IN MIDDLEWARE TO ALLOW IT TO RETURN THE FORMATTED URL BASED ON PARAMETERS (SIZE/SCALING/IMAGE FORMAT ETC)
         const optimisedImageUrl = "https://res.cloudinary.com/doowiss1n/image/upload/c_scale,w_800/" + event.image.id + ".webp"
 
         res.render("single-event.ejs", {
