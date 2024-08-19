@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const eventsController = require("../controllers/events")
-const cloudinaryUpload = require("../middleware/imageUpload")
+// const cloudinaryUpload = require("../middleware/imageUpload")
 const upload = require("../middleware/multer")
 
 router.get("/", eventsController.showEvents)
